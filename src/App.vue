@@ -67,10 +67,10 @@ onMounted(() => {
     </div>
     <br>
     <h1>Collapse</h1>
-    <Collapse v-model="openedArr">
+    <Collapse v-model="openedArr" accordion>
       <CollapseItem name="a">
         <template #title>
-          <span>slot title</span>
+          <span>slot title a</span>
         </template>
         content a
       </CollapseItem>
