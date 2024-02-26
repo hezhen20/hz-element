@@ -6,12 +6,14 @@
 
 <script setup lang="ts">
 import { provide, ref } from 'vue'
-import type { NameType } from './types'
+import type { NameType, CollapseEmits, CollapseProps } from './types'
 import { collapseContextKey } from './types'
 defineOptions({
   name: 'HzCollapse'
 })
-const activeNames = ref<NameType[]>([])
+const props = defineProps<CollapseProps>()
+const emits = defineEmits<CollapseEmits>()
+const activeNames = ref<NameType[]>(props.modelValue)
 const handleItemClick = (name: NameType) => {
   const index = activeNames.value.indexOf(name)
   if (index > -1) {
@@ -21,6 +23,8 @@ const handleItemClick = (name: NameType) => {
     // 不存在，要添加，即 CollapseItem 展示
     activeNames.value.push(name)
   }
+  emits('update:modelValue', activeNames.value)
+  emits('change', activeNames.value)
 }
 
 provide(collapseContextKey, {

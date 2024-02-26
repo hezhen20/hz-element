@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import Button from './components/Button/Button.vue'
 import { ButtonInstance } from './components/Button/types'
+import Collapse from './components/Collapse/Collapse.vue'
+import CollapseItem from './components/Collapse/CollapseItem.vue'
 import { ref, onMounted } from 'vue'
 
 const buttonRef = ref<ButtonInstance | null>(null)
+const openedArr = ref(['a'])
 
 onMounted(() => {
   console.log(buttonRef.value?.ref) 
@@ -63,6 +66,22 @@ onMounted(() => {
       <Button type="success" size="small"> Small </Button>
     </div>
     <br>
+    <h1>Collapse</h1>
+    <Collapse v-model="openedArr">
+      <CollapseItem name="a">
+        <template #title>
+          <span>slot title</span>
+        </template>
+        content a
+      </CollapseItem>
+      <CollapseItem name="b" title="title b">
+        content b
+      </CollapseItem>
+      <CollapseItem name="c" title="title c disabled" disabled>
+        content c
+      </CollapseItem>
+    </Collapse>
+    {{ openedArr }}
   </main>
 </template>
 
