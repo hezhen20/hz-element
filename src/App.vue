@@ -49,10 +49,6 @@ onMounted(() => {
     </div>
     <br>
     <div>
-      <Button circle>circle</Button>
-    </div>
-    <br>
-    <div>
       <Button disabled> hello </Button>
       <Button type="primary" disabled> Primary </Button>
       <Button type="success" disabled> Success </Button>
@@ -68,26 +64,29 @@ onMounted(() => {
     </div>
     <br>
     <div>
+      <Button circle> <Icon icon="star" /> </Button>
+      <Button type="primary" circle>   <Icon icon="star" /> </Button>
+      <Button type="success" circle> <Icon icon="star" /> </Button>
+      <Button type="warning" circle> <Icon icon="star" /> </Button>
+      <Button type="danger" circle> <Icon icon="star" /> </Button>
+      <Button type="info" circle> <Icon icon="star" /> </Button>
       <Button icon="star"> Star Button </Button>
       <Button loading> Loading </Button>
     </div>
     <br>
     <h1>Collapse</h1>
     <Collapse v-model="openedArr">
-      <CollapseItem name="a">
-        <template #title>
-          <span>slot title a</span>
-        </template>
-        content a
-      </CollapseItem>
-      <CollapseItem name="b" title="title b">
-        content b
-      </CollapseItem>
-      <CollapseItem name="c" title="title c disabled" disabled>
-        content c
-      </CollapseItem>
-    </Collapse>
-    {{ openedArr }}
+        <CollapseItem name="a" title="Title A">
+          <h1>headline title</h1>
+          <div> this is content a aaa </div>
+        </CollapseItem>
+        <CollapseItem name="b" title="Title B">
+          <div> this is bbbbb test </div>
+        </CollapseItem>
+        <CollapseItem name="c" title="Disabled Title" disabled>
+          <div> this is cccc test </div>
+        </CollapseItem>
+      </Collapse>
     <br>
     <h1>Icon</h1>
     <Icon icon="arrow-up" size="3x" type="danger"/>
