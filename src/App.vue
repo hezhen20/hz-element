@@ -3,6 +3,7 @@ import Button from './components/Button/Button.vue'
 import { ButtonInstance } from './components/Button/types'
 import Collapse from './components/Collapse/Collapse.vue'
 import CollapseItem from './components/Collapse/CollapseItem.vue'
+import Icon from './components/Icon/Icon.vue'
 import { ref, onMounted } from 'vue'
 
 const buttonRef = ref<ButtonInstance | null>(null)
@@ -82,6 +83,9 @@ onMounted(() => {
       </CollapseItem>
     </Collapse>
     {{ openedArr }}
+    <br>
+    <h1>Icon</h1>
+    <Icon icon="arrow-up" size="3x" type="danger"/>
   </main>
 </template>
 
