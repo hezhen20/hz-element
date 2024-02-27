@@ -67,6 +67,11 @@ onMounted(() => {
       <Button type="success" size="small"> Small </Button>
     </div>
     <br>
+    <div>
+      <Button icon="star"> Star Button </Button>
+      <Button loading> Loading </Button>
+    </div>
+    <br>
     <h1>Collapse</h1>
     <Collapse v-model="openedArr">
       <CollapseItem name="a">

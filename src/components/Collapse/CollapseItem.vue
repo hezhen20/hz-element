@@ -13,6 +13,7 @@
       :id="`item-header-${name}`" 
       @click="handleClick">
       <slot name="title">{{ title }}</slot>
+      <Icon icon="angle-right" class="header-angle" />
     </div>
     <Transition name="slide" v-on="transitionEvents">
       <!-- wrapper 用来解决动画的bug -->
@@ -29,6 +30,7 @@
 import { inject, computed } from 'vue'
 import type { CollapseItemProps } from './types'
 import { collapseContextKey } from './types'
+import Icon from '../Icon/Icon.vue'
 
 defineOptions({
   name: 'HzCollapseItem'
