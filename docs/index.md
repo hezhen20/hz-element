@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /markdown-examples
+      link: /component/button
     - theme: alt
       text: View on GitHub
       link: https://github.com/hezhen20/hz-element

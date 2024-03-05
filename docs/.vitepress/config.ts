@@ -31,8 +31,8 @@ export default defineConfig({
         text: 'Components List',
         items: [
           { text: 'Button 按钮', link: '/component/button' },
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          // { text: 'Markdown Examples', link: '/markdown-examples' },
+          // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       }
     ],
