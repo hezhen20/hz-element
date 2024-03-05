@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 export default defineConfig({
   title: "H Element",
   description: "A Vue3 UI Framework",
+  base: '/hz-element/',
   vite: {
     resolve: {
       alias: {
