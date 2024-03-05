@@ -23,13 +23,14 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Component', link: '/markdown-examples' }
+      { text: 'Component', link: '/component/button' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Components List',
         items: [
+          { text: 'Button 按钮', link: '/component/button' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }
         ]
