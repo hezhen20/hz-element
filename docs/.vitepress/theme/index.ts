@@ -7,6 +7,7 @@ import Icon from '@/components/Icon/Icon.vue'
 
 import '@vitepress-demo-preview/component/dist/style.css'
 import '../../../src/styles/index.css'
+import './custom.css'
 
 library.add(fas)
 
