@@ -1,9 +1,9 @@
 <template>
-  <div class="hz-tooltip">
+  <div class="hz-tooltip" v-on="outerEvents">
     <div
       class="hz-tooltip__trigger"
       ref="triggerNode"
-      @click="togglePopper"
+      v-on="events"
     >
       <slot />
     </div>
@@ -20,23 +20,56 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import type { Instance } from '@popperjs/core'
 import { createPopper } from '@popperjs/core'
 import type { TooltipProps, TooltipEmits } from './types'
 const props = withDefaults(defineProps<TooltipProps>(), {
-  placement: 'bottom'
+  placement: 'bottom',
+  trigger: 'hover'
 })
 const emits = defineEmits<TooltipEmits>()
 const isOpen = ref(false)
 const triggerNode = ref<HTMLElement>()
 const popperNode = ref<HTMLElement>()
 let popperInstance: Instance | null = null
+let events: Record<string, any> = reactive({})
+let outerEvents: Record<string, any> = reactive({})
 
+// click event
 const togglePopper = () => {
   isOpen.value = !isOpen.value
   emits('visible-change', isOpen.value)
 }
+
+// hover event
+const hoverOpen = () => {
+  isOpen.value = true
+  emits('visible-change', true)
+}
+const hoverClose = () => {
+  isOpen.value = false
+  emits('visible-change', false)
+}
+
+// add events to DOM
+const attachEvents = () => {
+  if (props.trigger === 'click') {
+    events['click'] = togglePopper
+  } else if (props.trigger === 'hover') {
+    events['mouseenter'] = hoverOpen
+    outerEvents['mouseleave'] = hoverClose
+  }
+}
+attachEvents()
+watch(() => props.trigger, (newTrigger, oldTrigger) => {
+  if (newTrigger !== oldTrigger) {
+    // 先清空再赋值
+    events = {}
+    outerEvents = {}
+    attachEvents()
+  }
+})
 
 watch(isOpen, (newVal) => {
   if (newVal && triggerNode.value && popperNode.value) {
