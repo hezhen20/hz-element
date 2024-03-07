@@ -1,5 +1,8 @@
 <template>
-  <div class="hz-tooltip" v-on="outerEvents">
+  <div
+    ref="popperContainerNode"
+    class="hz-tooltip"
+    v-on="outerEvents">
     <div
       class="hz-tooltip__trigger"
       ref="triggerNode"
@@ -24,6 +27,8 @@ import { reactive, ref, watch } from 'vue';
 import type { Instance } from '@popperjs/core'
 import { createPopper } from '@popperjs/core'
 import type { TooltipProps, TooltipEmits } from './types'
+import useClickOutside from '../..//hooks/useClickOutside'
+
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
   trigger: 'hover'
@@ -32,6 +37,7 @@ const emits = defineEmits<TooltipEmits>()
 const isOpen = ref(false)
 const triggerNode = ref<HTMLElement>()
 const popperNode = ref<HTMLElement>()
+const popperContainerNode = ref<HTMLElement>()
 let popperInstance: Instance | null = null
 let events: Record<string, any> = reactive({})
 let outerEvents: Record<string, any> = reactive({})
@@ -51,6 +57,12 @@ const hoverClose = () => {
   isOpen.value = false
   emits('visible-change', false)
 }
+
+useClickOutside(popperContainerNode, () => {
+  if (props.trigger === 'click' && isOpen.value) {
+    hoverClose()
+  }
+})
 
 // add events to DOM
 const attachEvents = () => {
