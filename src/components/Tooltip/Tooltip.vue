@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, onUnmounted, reactive, ref, watch } from 'vue';
 import type { Instance } from '@popperjs/core'
 import { createPopper } from '@popperjs/core'
 import type { TooltipProps, TooltipEmits, TooltipInstance } from './types'
@@ -41,6 +41,13 @@ const popperContainerNode = ref<HTMLElement>()
 let popperInstance: Instance | null = null
 let events: Record<string, any> = reactive({})
 let outerEvents: Record<string, any> = reactive({})
+
+const popperOptions = computed(() => {
+  return {
+    placement: props.placement,
+    ...props.popperOptions
+  }
+})
 
 // click event
 const togglePopper = () => {
@@ -97,9 +104,7 @@ watch(() => props.trigger, (newTrigger, oldTrigger) => {
 
 watch(isOpen, (newVal) => {
   if (newVal && triggerNode.value && popperNode.value) {
-    popperInstance = createPopper(triggerNode.value, popperNode.value, {
-      placement: props.placement
-    })
+    popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
   } else {
     popperInstance?.destroy()
   }
