@@ -106,10 +106,12 @@ watch(() => props.trigger, (newTrigger, oldTrigger) => {
 })
 
 watch(isOpen, (newVal) => {
-  if (newVal && triggerNode.value && popperNode.value) {
-    popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
-  } else {
-    popperInstance?.destroy()
+  if (newVal) {
+    if (triggerNode.value && popperNode.value) {
+      popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
+    } else {
+      popperInstance?.destroy()
+    }
   }
 }, { flush: 'post'}) // DOM 节点生成后再 watch
 
