@@ -23,10 +23,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { onUnmounted, reactive, ref, watch } from 'vue';
 import type { Instance } from '@popperjs/core'
 import { createPopper } from '@popperjs/core'
-import type { TooltipProps, TooltipEmits } from './types'
+import type { TooltipProps, TooltipEmits, TooltipInstance } from './types'
 import useClickOutside from '../..//hooks/useClickOutside'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
@@ -59,7 +59,7 @@ const hoverClose = () => {
 }
 
 useClickOutside(popperContainerNode, () => {
-  if (props.trigger === 'click' && isOpen.value) {
+  if (props.trigger === 'click' && isOpen.value && !props.manual) {
     hoverClose()
   }
 })
@@ -73,7 +73,19 @@ const attachEvents = () => {
     outerEvents['mouseleave'] = hoverClose
   }
 }
-attachEvents()
+if (!props.manual) {
+  attachEvents()
+}
+
+watch(() => props.manual, (isManual) => {
+  if (isManual) {
+    events = {}
+    outerEvents = {}
+  } else {
+    attachEvents()
+  }
+})
+
 watch(() => props.trigger, (newTrigger, oldTrigger) => {
   if (newTrigger !== oldTrigger) {
     // 先清空再赋值
@@ -92,4 +104,12 @@ watch(isOpen, (newVal) => {
     popperInstance?.destroy()
   }
 }, { flush: 'post'}) // DOM 节点生成后再 watch
+
+onUnmounted(() => {
+  popperInstance?.destroy()
+})
+defineExpose<TooltipInstance>({
+  'show': hoverOpen,
+  'hide': hoverClose
+})
 </script>
