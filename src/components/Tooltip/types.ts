@@ -6,6 +6,7 @@ export interface TooltipProps {
   placement?: Placement;
   manual?: boolean;
   popperOptions?: Partial<Options>;  // 将 Options 中的属性都变为可选的
+  transition?: string;
 }
 
 export interface TooltipEmits {

@@ -10,15 +10,17 @@
     >
       <slot />
     </div>
-    <div
-      v-if="isOpen"
-      class="hz-tooltip__popper"
-      ref="popperNode"
-    >
-      <slot name="content">
-        {{ content }}
-      </slot>
-    </div>
+    <Transition :name="transition">
+      <div
+        v-if="isOpen"
+        class="hz-tooltip__popper"
+        ref="popperNode"
+      >
+        <slot name="content">
+          {{ content }}
+        </slot>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -31,7 +33,8 @@ import useClickOutside from '../..//hooks/useClickOutside'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
-  trigger: 'hover'
+  trigger: 'hover',
+  transition: 'fade'
 })
 const emits = defineEmits<TooltipEmits>()
 const isOpen = ref(false)
