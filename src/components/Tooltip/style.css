@@ -1,4 +1,75 @@
 .hz-tooltip {
+  --hz-popover-bg-color: var(--hz-bg-color-overlay);
+  --hz-popover-font-size: var(--hz-font-size-base);
+  --hz-popover-border-color: var(--hz-border-color);
+  --hz-popover-padding: 12px;
+  --hz-popover-border-radius: 4px;
+  display: inline-block;
+}
+
+.hz-tooltip {
+  .hz-tooltip__popper {
+    background: var(--hz-popover-bg-color);
+    border-radius: var(--hz-popover-border-radius);
+    border: 1px solid var(--hz-popover-border-color);
+    padding: var(--hz-popover-padding);
+    color: var(--hz-text-color-regular);
+    line-height: 1.4;
+    text-align: justify;
+    font-size: var(--hz-popover-font-size);
+    box-shadow: var(--hz-box-shadow-light);
+    word-break: break-all;
+    box-sizing: border-box;
+    z-index: 1000;
+    #arrow,
+    #arrow::before {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      box-sizing: border-box;
+      background: var(--hz-popover-bg-color);
+    }
+    #arrow {
+      visibility: hidden;
+    }
+    #arrow::before {
+      visibility: visible;
+      content: "";
+      transform: rotate(45deg);
+    }
+    &[data-popper-placement^='top'] > #arrow {
+      bottom: -5px;
+    }
+    
+    &[data-popper-placement^='bottom'] > #arrow {
+      top: -5px;
+    }
+    
+    &[data-popper-placement^='left'] > #arrow {
+      right: -5px;
+    }
+    
+    &[data-popper-placement^='right'] > #arrow {
+      left: -5px;
+    }
+    &[data-popper-placement^="top"] > #arrow::before {
+      border-right: 1px solid var(--hz-popover-border-color);
+      border-bottom: 1px solid var(--hz-popover-border-color);
+    }
+    &[data-popper-placement^="bottom"] > #arrow::before {
+      border-left: 1px solid var(--hz-popover-border-color);
+      border-top: 1px solid var(--hz-popover-border-color);
+    }
+    &[data-popper-placement^="left"] > #arrow::before {
+      border-right: 1px solid var(--hz-popover-border-color);
+      border-top: 1px solid var(--hz-popover-border-color);
+    }
+    &[data-popper-placement^="right"] > #arrow::before {
+      border-left: 1px solid var(--hz-popover-border-color);
+      border-bottom: 1px solid var(--hz-popover-border-color);
+    }
+  }  
+
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity var(--hz-transition-duration);
