@@ -28,13 +28,16 @@
 import { computed, onUnmounted, reactive, ref, watch } from 'vue';
 import type { Instance } from '@popperjs/core'
 import { createPopper } from '@popperjs/core'
+import { debounce } from 'lodash-es'
 import type { TooltipProps, TooltipEmits, TooltipInstance } from './types'
 import useClickOutside from '../..//hooks/useClickOutside'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
   trigger: 'hover',
-  transition: 'fade'
+  transition: 'fade',
+  openDelay: 0,
+  closeDelay: 0,
 })
 const emits = defineEmits<TooltipEmits>()
 const isOpen = ref(false)
@@ -52,12 +55,6 @@ const popperOptions = computed(() => {
   }
 })
 
-// click event
-const togglePopper = () => {
-  isOpen.value = !isOpen.value
-  emits('visible-change', isOpen.value)
-}
-
 // hover event
 const hoverOpen = () => {
   isOpen.value = true
@@ -67,10 +64,31 @@ const hoverClose = () => {
   isOpen.value = false
   emits('visible-change', false)
 }
+const debounceOpen = debounce(hoverOpen, props.openDelay)
+const debounceClose = debounce(hoverClose, props.closeDelay)
+
+// 打开前取消掉关闭的函数，避免多余执行，反之亦然
+const finalOpen = () => {
+  debounceClose.cancel()
+  debounceOpen()
+}
+const finalClose = () => {
+  debounceOpen.cancel()
+  debounceClose()
+}
+
+// click event
+const togglePopper = () => {
+  if (isOpen.value) {
+    finalClose()
+  } else {
+    finalOpen()
+  }
+}
 
 useClickOutside(popperContainerNode, () => {
   if (props.trigger === 'click' && isOpen.value && !props.manual) {
-    hoverClose()
+    finalClose()
   }
 })
 
@@ -79,8 +97,8 @@ const attachEvents = () => {
   if (props.trigger === 'click') {
     events['click'] = togglePopper
   } else if (props.trigger === 'hover') {
-    events['mouseenter'] = hoverOpen
-    outerEvents['mouseleave'] = hoverClose
+    events['mouseenter'] = finalOpen
+    outerEvents['mouseleave'] = finalClose
   }
 }
 if (!props.manual) {
@@ -119,7 +137,7 @@ onUnmounted(() => {
   popperInstance?.destroy()
 })
 defineExpose<TooltipInstance>({
-  'show': hoverOpen,
-  'hide': hoverClose
+  'show': finalOpen,
+  'hide': finalClose
 })
 </script>
