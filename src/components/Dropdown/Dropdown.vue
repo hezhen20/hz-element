@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { Ref } from 'vue';
 import Tooltip from '../Tooltip/Tooltip.vue'
 import RenderVnode from '../Common/RenderVnode'
 import type { DropdownProps, DropdownInstance, DropdownEmits, MenuOption } from './types'
@@ -48,7 +47,7 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   hideAfterClick: true,
 })
 const emits = defineEmits<DropdownEmits>()
-const tooltipRef = ref() as Ref<TooltipInstance>
+const tooltipRef = ref<TooltipInstance | null>(null)
 const visibleChange = (e: boolean) => {
   emits('visible-change', e)
 }
@@ -62,7 +61,8 @@ const itemClick = (item: MenuOption) => {
   }
 }
 defineExpose<DropdownInstance>({
-  show: tooltipRef.value?.show,
-  hide: tooltipRef.value?.hide
+  // 创建闭包，执行的时候确保 tooltipRef 能拿到值
+  show: () => tooltipRef.value?.show(),
+  hide: () => tooltipRef.value?.hide()
 })
 </script>
