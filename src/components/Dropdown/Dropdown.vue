@@ -44,7 +44,9 @@ import RenderVnode from '../Common/RenderVnode'
 import type { DropdownProps, DropdownInstance, DropdownEmits, MenuOption } from './types'
 import type { TooltipInstance } from '../Tooltip/types'
 
-defineProps<DropdownProps>()
+const props = withDefaults(defineProps<DropdownProps>(), {
+  hideAfterClick: true,
+})
 const emits = defineEmits<DropdownEmits>()
 const tooltipRef = ref() as Ref<TooltipInstance>
 const visibleChange = (e: boolean) => {
@@ -55,6 +57,9 @@ const itemClick = (item: MenuOption) => {
     return
   }
   emits('select', item)
+  if (props.hideAfterClick) {
+    tooltipRef.value?.hide()
+  }
 }
 defineExpose<DropdownInstance>({
   show: tooltipRef.value?.show,
