@@ -27,7 +27,7 @@
               }"
               :id="`dropdown-item-${item.key}`"
             >
-              {{ item.label }}
+              <RenderVnode :vNode="item.label" />
             </li>
           </template>
         </ul>
@@ -40,6 +40,7 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import Tooltip from '../Tooltip/Tooltip.vue'
+import RenderVnode from '../Common/RenderVnode'
 import type { DropdownProps, DropdownInstance, DropdownEmits, MenuOption } from './types'
 import type { TooltipInstance } from '../Tooltip/types'
 
