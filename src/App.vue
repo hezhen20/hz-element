@@ -6,13 +6,22 @@ import Button from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Tooltip from './components/Tooltip/Tooltip.vue'
 import CollapseItem from './components/Collapse/CollapseItem.vue'
-import { ref, onMounted } from 'vue'
+import Dropdown from './components/Dropdown/Dropdown.vue'
+import type { MenuOption } from './components/Dropdown/types'
+import { ref, onMounted, h } from 'vue'
 
 const buttonRef = ref<ButtonInstance | null>(null)
 const tooltipRef = ref<TooltipInstance | null>(null)
 const openedArr = ref(['a'])
 const trigger = ref('hover')
 const tooltipOpts: Partial<Options> = { placement: 'right-end', strategy: 'fixed' }
+const options = ref<MenuOption[]>([
+  {label: 'a', key: 1, disabled: true},
+  {label: 'b', key: 2},
+  {label: 'c', key: 3, divided: true},
+  {label: 'd', key: 4},
+  {label: h('h1', 'this is h1'), key: 5},
+])
 
 onMounted(() => {
   console.log(buttonRef.value?.ref)
@@ -34,6 +43,10 @@ onMounted(() => {
     </Tooltip>
   </header>
   <main>
+    <h1>Dropdown</h1>
+    <Dropdown :menu-options="options">
+      <Button type="primary">hello</Button>
+    </Dropdown>
     <h1>Button</h1>
     <div>
       <Button @click="() => {tooltipRef?.show()}"> hello </Button>
