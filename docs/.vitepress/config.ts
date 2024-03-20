@@ -35,6 +35,7 @@ export default defineConfig({
           { text: 'Collapse 折叠面板', link: '/component/collapse' },
           { text: 'Tooltip 文字提示', link: '/component/tooltip' },
           { text: 'Dropdown 下拉菜单', link: '/component/dropdown' },
+          { text: 'TransBox 穿梭框', link: '/component/transBox' },
         ]
       }
     ],
