@@ -115,6 +115,7 @@ const handleClearAll = (side: string) => {
 
 <style lang="less" scoped>
 .trans-container {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,7 +123,7 @@ const handleClearAll = (side: string) => {
   &__box {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 40%;
     height: 300px;
     border: 1px solid #ccc;
     padding: 10px;
