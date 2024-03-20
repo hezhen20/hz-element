@@ -3,7 +3,7 @@ title: TransBox
 description: TransBox 组件文档
 ---
 
-# Tooltip 文字提示
+# TransBox 穿梭框
 穿梭框
 
 ## 基础用法
